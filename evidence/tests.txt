@@ -1,0 +1,17 @@
+test_archive_elitism (test_genesis.GenesisTests.test_archive_elitism) ... ok
+test_curriculum_explores (test_genesis.GenesisTests.test_curriculum_explores) ... ok
+test_holdouts_not_exposed_and_single_use (test_genesis.GenesisTests.test_holdouts_not_exposed_and_single_use) ... ok
+test_invalid_program_does_not_execute (test_genesis.GenesisTests.test_invalid_program_does_not_execute) ... ok
+test_multiseed_outputs_both_variants (test_genesis.GenesisTests.test_multiseed_outputs_both_variants) ... ok
+test_paired_evaluation_reproducible (test_genesis.GenesisTests.test_paired_evaluation_reproducible) ... ok
+test_skill_storage_rejects_code_and_round_trips (test_genesis.GenesisTests.test_skill_storage_rejects_code_and_round_trips) ... ok
+test_synthesis_exact (test_genesis.GenesisTests.test_synthesis_exact) ... ok
+test_tabular_rl_learns_from_zero (test_genesis.GenesisTests.test_tabular_rl_learns_from_zero) ... ok
+test_total_transformations (test_genesis.GenesisTests.test_total_transformations) ... ok
+test_training_reproducible (test_genesis.GenesisTests.test_training_reproducible) ... ok
+test_world_learning (test_genesis.GenesisTests.test_world_learning) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.065s
+
+OK

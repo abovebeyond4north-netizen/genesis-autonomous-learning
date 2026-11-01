@@ -1,0 +1,62 @@
+{
+  "runs": 5,
+  "train_episodes_per_seed": 150,
+  "eval_tasks_per_seed": 100,
+  "budget_per_task": 300,
+  "mean_pass_rate_delta": 0.192,
+  "stddev_pass_rate_delta": 0.0311,
+  "mean_relative_evaluation_saving": 0.6377,
+  "per_seed": [
+    {
+      "seed": 0,
+      "delta_pass_rate": 0.21,
+      "adaptive_pass": 98,
+      "baseline_pass": 77,
+      "adaptive_only_passes": 21,
+      "baseline_only_passes": 0,
+      "adaptive_candidate_evaluations": 3569,
+      "baseline_candidate_evaluations": 10944
+    },
+    {
+      "seed": 1,
+      "delta_pass_rate": 0.19,
+      "adaptive_pass": 95,
+      "baseline_pass": 76,
+      "adaptive_only_passes": 19,
+      "baseline_only_passes": 0,
+      "adaptive_candidate_evaluations": 4332,
+      "baseline_candidate_evaluations": 11859
+    },
+    {
+      "seed": 2,
+      "delta_pass_rate": 0.22,
+      "adaptive_pass": 96,
+      "baseline_pass": 74,
+      "adaptive_only_passes": 22,
+      "baseline_only_passes": 0,
+      "adaptive_candidate_evaluations": 3632,
+      "baseline_candidate_evaluations": 12608
+    },
+    {
+      "seed": 3,
+      "delta_pass_rate": 0.14,
+      "adaptive_pass": 97,
+      "baseline_pass": 83,
+      "adaptive_only_passes": 16,
+      "baseline_only_passes": 2,
+      "adaptive_candidate_evaluations": 5032,
+      "baseline_candidate_evaluations": 10345
+    },
+    {
+      "seed": 4,
+      "delta_pass_rate": 0.2,
+      "adaptive_pass": 97,
+      "baseline_pass": 77,
+      "adaptive_only_passes": 21,
+      "baseline_only_passes": 1,
+      "adaptive_candidate_evaluations": 4083,
+      "baseline_candidate_evaluations": 11816
+    }
+  ],
+  "caveat": "Repeated paired synthetic DSL benchmarks; performance on new domains and true open-endedness remain untested."
+}
