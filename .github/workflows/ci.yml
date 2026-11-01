@@ -13,3 +13,4 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - run: python -m unittest discover -s tests -v
       - run: python -m genesis train --episodes 12 --seed 4 --budget 120
+      - run: python -m genesis crossdomain --runs 1 --episodes 10 --tasks 10 --seed 5 --budget 100

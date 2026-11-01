@@ -1,0 +1,63 @@
+{
+  "seed": 3,
+  "training_episodes": 150,
+  "evaluation_tasks_per_regime": 100,
+  "budget": 300,
+  "transferred_templates": 30,
+  "string_primitives": [
+    "prefix_a",
+    "drop_first",
+    "suffix_b",
+    "reverse",
+    "rotate_left",
+    "swap_ab"
+  ],
+  "index_alignment": "researcher-specified, not learned",
+  "regimes": {
+    "aligned": {
+      "tasks": 100,
+      "baseline_pass_rate": 0.74,
+      "baseline_candidate_evaluations": 12592,
+      "baseline_primitive_applications": 281168,
+      "adaptive": {
+        "pass_rate": 0.92,
+        "delta_vs_baseline": 0.18,
+        "only_adaptive_passes": 18,
+        "only_baseline_passes": 0,
+        "candidate_evaluations": 8279,
+        "primitive_applications": 184784
+      },
+      "shuffled": {
+        "pass_rate": 0.82,
+        "delta_vs_baseline": 0.08,
+        "only_shuffled_passes": 12,
+        "only_baseline_passes": 4,
+        "candidate_evaluations": 11360,
+        "primitive_applications": 262224
+      }
+    },
+    "independent": {
+      "tasks": 100,
+      "baseline_pass_rate": 0.91,
+      "baseline_candidate_evaluations": 7929,
+      "baseline_primitive_applications": 165248,
+      "adaptive": {
+        "pass_rate": 0.91,
+        "delta_vs_baseline": 0.0,
+        "only_adaptive_passes": 1,
+        "only_baseline_passes": 1,
+        "candidate_evaluations": 7679,
+        "primitive_applications": 165432
+      },
+      "shuffled": {
+        "pass_rate": 0.91,
+        "delta_vs_baseline": 0.0,
+        "only_shuffled_passes": 1,
+        "only_baseline_passes": 1,
+        "candidate_evaluations": 7461,
+        "primitive_applications": 158616
+      }
+    }
+  },
+  "caveat": "Both domains and alignment are hand-designed. Aligned regime explicitly shares program-index motifs; independent regime does not. This tests structural reuse and a negative control, not learned semantic alignment or open-ended intelligence."
+}
