@@ -1,0 +1,83 @@
+{
+  "seed": 2,
+  "train_episodes": 150,
+  "tasks_per_regime": 100,
+  "budget": 300,
+  "numeric_skills": 32,
+  "mapping_observations": {
+    "mapping": [
+      3,
+      4,
+      5,
+      2,
+      0,
+      1
+    ],
+    "abstained": false,
+    "oracle_queries": 96,
+    "calibration_anchors": 8,
+    "confirmation_anchors": 8,
+    "rejected_ambiguous_or_incompatible": false,
+    "rejected_confirmation": false
+  },
+  "mapping_correct_after_sealed_teacher_check": true,
+  "unrelated_string_mapping_abstained": true,
+  "unrelated_string_calibration_oracle_queries": 48,
+  "regimes": {
+    "related": {
+      "tasks": 100,
+      "baseline": {
+        "pass_rate": 0.75,
+        "delta_vs_baseline": 0.0,
+        "only_this_passes": 0,
+        "only_baseline_passes": 0,
+        "candidate_evaluations": 10376,
+        "primitive_applications": 229320
+      },
+      "learned": {
+        "pass_rate": 0.95,
+        "delta_vs_baseline": 0.2,
+        "only_this_passes": 21,
+        "only_baseline_passes": 1,
+        "candidate_evaluations": 4515,
+        "primitive_applications": 92072
+      },
+      "shuffled": {
+        "pass_rate": 0.84,
+        "delta_vs_baseline": 0.09,
+        "only_this_passes": 10,
+        "only_baseline_passes": 1,
+        "candidate_evaluations": 10047,
+        "primitive_applications": 231408
+      }
+    },
+    "independent": {
+      "tasks": 100,
+      "baseline": {
+        "pass_rate": 0.84,
+        "delta_vs_baseline": 0.0,
+        "only_this_passes": 0,
+        "only_baseline_passes": 0,
+        "candidate_evaluations": 8681,
+        "primitive_applications": 183680
+      },
+      "learned": {
+        "pass_rate": 0.85,
+        "delta_vs_baseline": 0.01,
+        "only_this_passes": 2,
+        "only_baseline_passes": 1,
+        "candidate_evaluations": 8092,
+        "primitive_applications": 178760
+      },
+      "shuffled": {
+        "pass_rate": 0.84,
+        "delta_vs_baseline": 0.0,
+        "only_this_passes": 1,
+        "only_baseline_passes": 1,
+        "candidate_evaluations": 8601,
+        "primitive_applications": 191184
+      }
+    }
+  },
+  "caveat": "Opaque action mapping is inferred from unlabeled operator responses to SHARED single-byte value anchors, not from unanchored observations. The related task generator explicitly shares numeric motifs. The unrelated native string domain should trigger abstention. No open-ended cross-domain semantics are demonstrated."
+}

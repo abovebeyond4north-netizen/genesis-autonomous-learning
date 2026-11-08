@@ -2,7 +2,7 @@
 
 **A runnable, standard-library-only research harness for learning from zero pretrained weights.**
 
-Genesis v0.1 implements an autonomous experimental loop, not a claim of AGI or open-ended general intelligence. The learner starts without models or skills, samples synthetic tasks, invents finite compositions of given operators by search, scores them on disjoint held-out inputs, saves verified compositions as reusable skills, and adjusts the next task difficulty using observed learning progress. A separate small world demonstrates online transition learning and model-based planning.
+Genesis v0.3 implements an autonomous experimental loop, not a claim of AGI or open-ended general intelligence. The learner starts without models or skills, samples synthetic tasks, invents finite compositions of given operators by search, scores them on disjoint held-out inputs, saves verified compositions as reusable skills, and adjusts the next task difficulty using observed learning progress. A separate small world demonstrates online transition learning and model-based planning.
 
 ## Quickstart (Python >=3.11; no packages or API keys)
 
@@ -13,6 +13,7 @@ python -m genesis paired --episodes 100 --tasks 100 --seed 42 --budget 300 --out
 python -m genesis multiseed --runs 5 --episodes 150 --tasks 100 --budget 300 --output results/replications
 python -m genesis bench --episodes 100 --seed 42 --budget 300 --output results/online_ablation
 python -m genesis crossdomain --runs 5 --episodes 150 --tasks 100 --budget 300 --output results/crossdomain
+python -m genesis discover --runs 5 --episodes 150 --tasks 100 --budget 300 --output results/discovery
 python -m genesis world --episodes 30 --seed 1
 python -m genesis rl --episodes 500 --seed 1
 # Optional real benchmark:
@@ -48,7 +49,7 @@ sealed final score (24 other inputs; report-only)
 record metrics → next task
 ```
 
-`genesis.crossdomain` adds an independently typed string-transformation language with held-out tasks and an explicit operator-index alignment falsification control; the current correspondence is **hand-assigned**, not learned. `genesis.program` has six safe finite 8-bit primitives; candidate programs are data tuples, never executed as Python source. `genesis.synth` finds a minimal-cost match under a strict candidate budget and reuses learned macros as single search operators. `genesis.curriculum` schedules 1–4 primitive-depth problems. `genesis.archive` retains high-scoring behavior descriptors. `genesis.world` implements an empirical transition model and BFS controller. `genesis.rl` implements actual tabular Q-learning with randomized initial behavior and an optional discrete-observation Gymnasium adapter; it does **not** implement DreamerV3 or CleanRL itself.
+`genesis.discovery` infers an opaque operator-index mapping from observed input/output probes under an **explicit shared byte-to-hex anchor convention**, and abstains on incompatible unrelated string operations; see [discovery protocol](research/DISCOVERY.md). `genesis.crossdomain` adds an independently typed string-transformation language with held-out tasks and an explicit operator-index alignment falsification control; the current correspondence is **hand-assigned**, not learned. `genesis.program` has six safe finite 8-bit primitives; candidate programs are data tuples, never executed as Python source. `genesis.synth` finds a minimal-cost match under a strict candidate budget and reuses learned macros as single search operators. `genesis.curriculum` schedules 1–4 primitive-depth problems. `genesis.archive` retains high-scoring behavior descriptors. `genesis.world` implements an empirical transition model and BFS controller. `genesis.rl` implements actual tabular Q-learning with randomized initial behavior and an optional discrete-observation Gymnasium adapter; it does **not** implement DreamerV3 or CleanRL itself.
 
 ## Evidence and boundaries
 
@@ -56,12 +57,13 @@ record metrics → next task
 - `paired` trains skills, then freezes them and compares adaptive versus no-skill search on **identical unseen tasks** at equal per-task candidate budgets. This isolates the value of the learned library better than `bench`, but remains within one hand-designed task family. `multiseed` adds independent seeds and reports the between-seed variation; independently chosen domains remain necessary.
 - `bench` reports a separate online ablation with unpaired adaptive curricula; do not use it alone as evidence of transfer.
 - `crossdomain` freezes numeric skills, compares on a **distinct string task family** and scores a shuffled-index negative control. Five-seed results: +13.0 pp on deliberately aligned motifs, but only +2.4 pp on independently generated motifs (vs +2.0 pp for shuffled). This does **not** establish discovered semantic transfer. [Full protocol and results](research/CROSSDOMAIN.md).
+- `discover` tests observation-derived mappings against shuffled and no-transfer controls. Five seeds recovered all six opaque correspondences (5/5); related-motif success was 95.4% vs 75.4% baseline and 80.8% shuffled, but independent-motif gains were small (86.6% vs 84.0% and 85.6%). The known byte-to-hex anchors and a shared teacher-defined operator family make this a restricted mapping-identification result, **not** discovery of semantics from unrelated representations. See [protocol](research/DISCOVERY.md) and [evidence](evidence/discovery_v01/multi_seed_summary.json).
 - The built-in problem family is deliberately restricted to a hand-designed 8-bit DSL and a small finite-state world. The system does not acquire general language, unbounded algorithmic creativity, awareness, or unsupervised world knowledge.
 - No external source code is copied. [Research comparison and integration roadmap](research/SOURCES.md) documents upstream inspirations. [Benchmark results](research/BENCHMARKS.md) and [reproduction evidence](evidence/multi_seed_5x100.json) are included.
 
 ## Next milestones
 
-1. **Now tested:** bounded cross-domain structural transfer with negative controls. Next: discover operator correspondences from unpaired observations without researcher-supplied index alignment, and test on independent domains. Add matched wall-clock baselines.
+1. **Now tested:** index-permuted operator correspondence inferred from input/output probes using shared byte-value anchors, with an unrelated-domain abstention test. Next: discover representations *without* common value anchors, using compositional algebra or representation learning; compare against random/shuffled controls and matched wall-clock baselines.
 2. Replace the finite transition table with optional self-supervised latent world models and measure long-horizon planning.
 3. Implement independently invented and compressive learned operators with heldout verification, not just storing successful operator sequences.
 4. Add Gymnasium/Minigrid, OpenSpiel, and bsuite adapters behind optional dependency groups.
