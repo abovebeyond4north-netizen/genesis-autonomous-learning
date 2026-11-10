@@ -16,3 +16,9 @@ jobs:
       - run: python -m genesis crossdomain --runs 1 --episodes 10 --tasks 10 --seed 5 --budget 100
       - run: python -m genesis discover --runs 1 --episodes 10 --tasks 10 --seed 5 --budget 100
       - run: python -m genesis emerge --runs 2 --train-steps 2600 --test-steps 150
+      - run: python -m genesis emerge --runs 30 --train-steps 2600 --test-steps 1200 --seed 0 --output evidence/emergence_ci
+      - uses: actions/upload-artifact@v4
+        with:
+          name: emergence-${{ matrix.python-version }}
+          path: evidence/emergence_ci/
+          retention-days: 30
