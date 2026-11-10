@@ -22,3 +22,10 @@ jobs:
           name: emergence-${{ matrix.python-version }}
           path: evidence/emergence_ci/
           retention-days: 30
+      - run: python -m genesis partial --runs 2 --episodes 6 --steps 85 --seed 3
+      - run: python -m genesis partial --runs 20 --episodes 30 --steps 250 --seed 0 --output evidence/partial_ci
+      - uses: actions/upload-artifact@v4
+        with:
+          name: partial-${{ matrix.python-version }}
+          path: evidence/partial_ci/
+          retention-days: 30
