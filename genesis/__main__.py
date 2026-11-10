@@ -8,6 +8,7 @@ from .benchmark import paired_transfer, multi_seed_transfer
 from .crossdomain import crossdomain_transfer, multi_seed_crossdomain
 from .discovery import discovery_transfer, multiseed_discovery
 from .emergence import single_trial as emergence_trial, multiseed as emergence_multiseed, representation_snapshot
+from .partial import trial as partial_trial, multiseed as partial_multiseed
 from .world import world_demo
 from .rl import HiddenDirectionWorld, learn, learn_gymnasium
 
@@ -54,6 +55,13 @@ def main() -> None:
     emerge.add_argument("--test-steps", type=int, default=1200)
     emerge.add_argument("--seed", type=int, default=0)
     emerge.add_argument("--output", type=Path, default=None)
+    partial = sub.add_parser("partial", help="Infer predictive history states from opaque stochastic POMDP observations")
+    partial.add_argument("--runs", type=int, default=10)
+    partial.add_argument("--episodes", type=int, default=30)
+    partial.add_argument("--steps", type=int, default=250)
+    partial.add_argument("--max-depth", type=int, default=3)
+    partial.add_argument("--seed", type=int, default=0)
+    partial.add_argument("--output", type=Path, default=None)
     r = sub.add_parser("rl")
     r.add_argument("--episodes", type=int, default=500)
     r.add_argument("--seed", type=int, default=1)
@@ -86,6 +94,13 @@ def main() -> None:
             (args.output / "invented_representation.json").write_text(
                 json.dumps(representation_snapshot(args.seed, args.train_steps), indent=2) + "\n",
                 encoding="utf-8")
+    elif args.command == "partial":
+        result = partial_multiseed(args.seed, args.runs, args.episodes, args.steps, args.max_depth)
+        if args.output is not None:
+            args.output.mkdir(parents=True, exist_ok=True)
+            (args.output / "summary.json").write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+            (args.output / "trials.jsonl").write_text(
+                "".join(json.dumps(item) + "\n" for item in result["per_seed"]), encoding="utf-8")
     elif args.command == "rl":
         _, result = learn(HiddenDirectionWorld(), args.episodes, args.seed)
     elif args.command == "gym":
