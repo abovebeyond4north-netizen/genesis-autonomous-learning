@@ -2,7 +2,7 @@
 
 **A runnable, standard-library-only research harness for learning from zero pretrained weights.**
 
-Genesis v0.3 implements an autonomous experimental loop, not a claim of AGI or open-ended general intelligence. The learner starts without models or skills, samples synthetic tasks, invents finite compositions of given operators by search, scores them on disjoint held-out inputs, saves verified compositions as reusable skills, and adjusts the next task difficulty using observed learning progress. A separate small world demonstrates online transition learning and model-based planning.
+Genesis v0.4 implements an autonomous experimental loop, not a claim of AGI or open-ended general intelligence. The learner starts without models or skills, samples synthetic tasks, invents finite compositions of given operators by search, scores them on disjoint held-out inputs, saves verified compositions as reusable skills, and adjusts the next task difficulty using observed learning progress. A separate small world demonstrates online transition learning and model-based planning.
 
 ## Quickstart (Python >=3.11; no packages or API keys)
 
@@ -14,6 +14,7 @@ python -m genesis multiseed --runs 5 --episodes 150 --tasks 100 --budget 300 --o
 python -m genesis bench --episodes 100 --seed 42 --budget 300 --output results/online_ablation
 python -m genesis crossdomain --runs 5 --episodes 150 --tasks 100 --budget 300 --output results/crossdomain
 python -m genesis discover --runs 5 --episodes 150 --tasks 100 --budget 300 --output results/discovery
+python -m genesis emerge --runs 30 --train-steps 2600 --test-steps 1200 --seed 0 --output results/emergence
 python -m genesis world --episodes 30 --seed 1
 python -m genesis rl --episodes 500 --seed 1
 # Optional real benchmark:
@@ -60,6 +61,14 @@ record metrics → next task
 - `discover` tests observation-derived mappings against shuffled and no-transfer controls. Five seeds recovered all six opaque correspondences (5/5); related-motif success was 95.4% vs 75.4% baseline and 80.8% shuffled, but independent-motif gains were small (86.6% vs 84.0% and 85.6%). The known byte-to-hex anchors and a shared teacher-defined operator family make this a restricted mapping-identification result, **not** discovery of semantics from unrelated representations. See [protocol](research/DISCOVERY.md) and [evidence](evidence/discovery_v01/multi_seed_summary.json).
 - The built-in problem family is deliberately restricted to a hand-designed 8-bit DSL and a small finite-state world. The system does not acquire general language, unbounded algorithmic creativity, awareness, or unsupervised world knowledge.
 - No external source code is copied. [Research comparison and integration roadmap](research/SOURCES.md) documents upstream inspirations. [Benchmark results](research/BENCHMARKS.md) and [reproduction evidence](evidence/multi_seed_5x100.json) are included.
+
+## New in v0.4 — learned representation without shared token identities
+
+The **emerge** experiment receives ONLY opaque (observation, action, next observation) triples. It constructs behavioral equivalence classes and introduces its own new state symbols without receiving a state count, codebook, known value codec, or source-to-target state/action alignment. It matches action-conditioned transition graphs across independently renamed worlds, and tests an unrelated graph as a rejection control. The underlying generator **does** deliberately create isomorphic positive worlds, and the learner **does** assume a stationary, discrete, finite-state, Markov system with deterministic hidden transitions. This is an experimentally verified narrow form of representation induction, **not** intelligence with literally no prior structural assumptions.
+
+Across 30 reproducible seeds, both worlds' 21 opaque observation values were compressed into seven correctly recovered predictive states; 30/30 positive graph pairs were matched and 30/30 unrelated graphs rejected. Mean held-out next-observation negative log-likelihood was 1.176142 using learned states, versus 1.316902 with raw-token lookup and 2.131102 with shuffled states. **These numbers are restricted to one purposely constructed synthetic family**, not general-world verification.
+
+For the actual generated model and falsification protocol, read [Representation induction](research/EMERGENCE.md). Run `python -m genesis emerge --runs 1 --output results/example` and inspect the output file `invented_representation.json` to see Genesis's newly formed states and their learned transition graph.
 
 ## Next milestones
 
