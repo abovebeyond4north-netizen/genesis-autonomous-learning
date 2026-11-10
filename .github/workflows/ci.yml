@@ -15,3 +15,4 @@ jobs:
       - run: python -m genesis train --episodes 12 --seed 4 --budget 120
       - run: python -m genesis crossdomain --runs 1 --episodes 10 --tasks 10 --seed 5 --budget 100
       - run: python -m genesis discover --runs 1 --episodes 10 --tasks 10 --seed 5 --budget 100
+      - run: python -m genesis emerge --runs 2 --train-steps 2600 --test-steps 150
